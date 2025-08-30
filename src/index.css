@@ -2,41 +2,77 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* Dotcoon Store Design System - Modern tech store aesthetic */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Base colors - Deep tech aesthetic */
+    --background: 220 13% 6%;
+    --foreground: 210 40% 98%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    /* Cards and surfaces */
+    --card: 220 13% 9%;
+    --card-foreground: 210 40% 98%;
+    --card-hover: 220 13% 12%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    /* Interactive elements */
+    --popover: 220 13% 9%;
+    --popover-foreground: 210 40% 98%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Brand colors - Electric purple/blue theme */
+    --primary: 250 95% 65%;
+    --primary-foreground: 220 13% 6%;
+    --primary-glow: 250 100% 75%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Secondary - Warm accent */
+    --secondary: 35 100% 65%;
+    --secondary-foreground: 220 13% 6%;
+    --secondary-glow: 35 100% 75%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    /* Muted elements */
+    --muted: 220 13% 15%;
+    --muted-foreground: 220 9% 65%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    /* Accent - Cyan tech accent */
+    --accent: 180 100% 65%;
+    --accent-foreground: 220 13% 6%;
 
-    --destructive: 0 84.2% 60.2%;
+    /* Status colors */
+    --destructive: 0 84% 60%;
     --destructive-foreground: 210 40% 98%;
+    --success: 142 76% 36%;
+    --success-foreground: 210 40% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    /* Borders and inputs */
+    --border: 220 13% 20%;
+    --input: 220 13% 15%;
+    --ring: 250 95% 65%;
 
-    --radius: 0.5rem;
+    /* Store-specific colors */
+    --store-section: 220 13% 12%;
+    --store-section-hover: 220 13% 18%;
+    --inventory-available: 142 76% 36%;
+    --inventory-low: 35 100% 65%;
+    --inventory-out: 0 84% 60%;
+
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
+    --gradient-secondary: linear-gradient(135deg, hsl(var(--secondary)), hsl(var(--secondary-glow)));
+    --gradient-store: linear-gradient(135deg, hsl(var(--card)), hsl(var(--store-section)));
+    --gradient-glow: radial-gradient(circle at center, hsl(var(--primary) / 0.15), transparent 70%);
+
+    /* Shadows and effects */
+    --shadow-store: 0 4px 20px hsl(var(--primary) / 0.1);
+    --shadow-section: 0 2px 10px hsl(0 0% 0% / 0.3);
+    --shadow-product: 0 8px 30px hsl(var(--primary) / 0.2);
+    --glow-primary: 0 0 20px hsl(var(--primary) / 0.4);
+    --glow-secondary: 0 0 20px hsl(var(--secondary) / 0.4);
+
+    /* Animations */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+    --radius: 0.75rem;
 
     --sidebar-background: 0 0% 98%;
 
