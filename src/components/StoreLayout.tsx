@@ -1,180 +1,180 @@
 import { useState, useEffect } from 'react';
-import { StoreSection } from './StoreSection';
-import { ProductCard } from './ProductCard';
+import { StoreGrid } from './StoreGrid';
 
-interface StoreSectionData {
+interface GridCell {
   id: string;
-  name: string;
-  type: 'products' | 'space' | 'future';
-  gridSize: { cols: number; rows: number };
-  position: { x: number; y: number };
+  x: number;
+  y: number;
+  type: 'teenage-engineering' | 'kitchen' | 'lounge' | 'future' | 'empty' | 'walkway';
+  name?: string;
   products?: Array<{
     id: string;
     name: string;
     price: string;
-    image?: string;
     link: string;
     stock: 'available' | 'low' | 'out';
   }>;
-  description?: string;
 }
 
-const initialSections: StoreSectionData[] = [
-  {
-    id: 'teenage-engineering',
-    name: 'Teenage Engineering',
-    type: 'products',
-    gridSize: { cols: 3, rows: 2 },
-    position: { x: 0, y: 0 },
-    description: 'The Field System™ & Audio Gear',
-    products: [
-      {
-        id: 'field-desk',
-        name: 'Field Desk',
-        price: '$1,200',
-        link: 'https://teenage.engineering/products/field-system',
-        stock: 'available'
-      },
-      {
-        id: 'field-case',
-        name: 'Field Case',
-        price: '$400',
-        link: 'https://teenage.engineering/products/field-system',
-        stock: 'low'
-      },
-      {
-        id: 'op-1-field',
-        name: 'OP-1 Field',
-        price: '$2,300',
-        link: 'https://teenage.engineering/products/field-system',
-        stock: 'available'
-      }
-    ]
-  },
-  {
-    id: 'kitchen',
-    name: 'Kitchen Area',
-    type: 'space',
-    gridSize: { cols: 2, rows: 2 },
-    position: { x: 3, y: 0 },
-    description: 'Coffee & Refreshments'
-  },
-  {
-    id: 'lounge',
-    name: 'Lounge & Seating',
-    type: 'space',
-    gridSize: { cols: 2, rows: 1 },
-    position: { x: 0, y: 2 },
-    description: 'Comfortable Seating Area'
-  },
-  {
-    id: 'future-1',
-    name: 'Future Section',
-    type: 'future',
-    gridSize: { cols: 1, rows: 1 },
-    position: { x: 2, y: 2 },
-    description: 'Coming Soon'
-  },
-  {
-    id: 'future-2',
-    name: 'Future Section',
-    type: 'future',
-    gridSize: { cols: 2, rows: 1 },
-    position: { x: 3, y: 2 },
-    description: 'Coming Soon'
-  }
-];
-
 export function StoreLayout() {
-  const [sections, setSections] = useState<StoreSectionData[]>(initialSections);
-  const [gridSize, setGridSize] = useState({ cols: 5, rows: 3 });
-  const [isMobile, setIsMobile] = useState(false);
+  const [gridSize, setGridSize] = useState({ cols: 16, rows: 10 });
+  const [selectedCell, setSelectedCell] = useState<GridCell | null>(null);
 
   useEffect(() => {
-    const checkMobile = () => {
-      const mobile = window.innerWidth < 768;
-      setIsMobile(mobile);
-      
-      if (mobile) {
-        setGridSize({ cols: 2, rows: 6 });
-        // Adjust sections for mobile layout
-        setSections(prev => prev.map((section, index) => ({
-          ...section,
-          gridSize: { cols: 1, rows: 1 },
-          position: { x: index % 2, y: Math.floor(index / 2) }
-        })));
+    const updateGrid = () => {
+      const width = window.innerWidth;
+      if (width < 640) {
+        setGridSize({ cols: 12, rows: 8 });
+      } else if (width < 1024) {
+        setGridSize({ cols: 14, rows: 9 });
       } else {
-        setGridSize({ cols: 5, rows: 3 });
-        setSections(initialSections);
+        setGridSize({ cols: 16, rows: 10 });
       }
     };
 
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
+    updateGrid();
+    window.addEventListener('resize', updateGrid);
+    return () => window.removeEventListener('resize', updateGrid);
   }, []);
 
-  const handleSectionClick = (sectionId: string) => {
-    console.log(`Clicked section: ${sectionId}`);
+  // Create the grid layout
+  const createGrid = (): GridCell[] => {
+    const cells: GridCell[] = [];
+    
+    for (let y = 0; y < gridSize.rows; y++) {
+      for (let x = 0; x < gridSize.cols; x++) {
+        let cell: GridCell = {
+          id: `${x}-${y}`,
+          x,
+          y,
+          type: 'empty'
+        };
+
+        // Teenage Engineering section (top-left, 4x3)
+        if (x >= 1 && x <= 4 && y >= 1 && y <= 3) {
+          cell = {
+            ...cell,
+            type: 'teenage-engineering',
+            name: 'Teenage Engineering Field System™',
+            products: [
+              {
+                id: 'field-desk',
+                name: 'Field Desk',
+                price: '$1,200',
+                link: 'https://teenage.engineering/products/field-system',
+                stock: 'available'
+              },
+              {
+                id: 'field-case',
+                name: 'Field Case',
+                price: '$400',
+                link: 'https://teenage.engineering/products/field-system',
+                stock: 'low'
+              },
+              {
+                id: 'op-1-field',
+                name: 'OP-1 Field',
+                price: '$2,300',
+                link: 'https://teenage.engineering/products/field-system',
+                stock: 'available'
+              },
+              {
+                id: 'tx-6',
+                name: 'TX-6',
+                price: '$1,200',
+                link: 'https://teenage.engineering/products/field-system',
+                stock: 'available'
+              }
+            ]
+          };
+        }
+        
+        // Kitchen area (top-right, 3x2)
+        else if (x >= gridSize.cols - 4 && x <= gridSize.cols - 2 && y >= 1 && y <= 2) {
+          cell = {
+            ...cell,
+            type: 'kitchen',
+            name: 'Kitchen & Coffee Bar'
+          };
+        }
+        
+        // Lounge area (bottom-left, 3x2)
+        else if (x >= 1 && x <= 3 && y >= gridSize.rows - 3 && y <= gridSize.rows - 2) {
+          cell = {
+            ...cell,
+            type: 'lounge',
+            name: 'Lounge & Seating Area'
+          };
+        }
+        
+        // Future sections scattered around
+        else if (
+          (x >= 6 && x <= 8 && y >= 2 && y <= 3) ||
+          (x >= 10 && x <= 11 && y >= 4 && y <= 5) ||
+          (x >= 5 && x <= 6 && y >= gridSize.rows - 2 && y <= gridSize.rows - 1)
+        ) {
+          cell = {
+            ...cell,
+            type: 'future',
+            name: 'Future Section'
+          };
+        }
+        
+        // Walkways (creating paths through the store)
+        else if (
+          (x === 0 || x === gridSize.cols - 1 || y === 0 || y === gridSize.rows - 1) || // perimeter
+          (x === 5 && y >= 1 && y <= gridSize.rows - 2) || // vertical walkway
+          (y === 4 && x >= 1 && x <= gridSize.cols - 2) // horizontal walkway
+        ) {
+          cell = {
+            ...cell,
+            type: 'walkway'
+          };
+        }
+
+        cells.push(cell);
+      }
+    }
+    
+    return cells;
   };
 
-  const getGridClasses = () => {
-    if (isMobile) {
-      return 'grid-cols-2 grid-rows-6';
-    }
-    return 'grid-cols-5 grid-rows-3';
-  };
+  const gridCells = createGrid();
 
-  const getSectionClasses = (section: StoreSectionData) => {
-    if (isMobile) {
-      return 'col-span-1 row-span-1';
+  const handleCellClick = (cell: GridCell) => {
+    if (cell.type !== 'empty' && cell.type !== 'walkway') {
+      setSelectedCell(selectedCell?.id === cell.id ? null : cell);
     }
-    
-    const colSpan = section.gridSize.cols === 1 ? 'col-span-1' :
-                   section.gridSize.cols === 2 ? 'col-span-2' :
-                   section.gridSize.cols === 3 ? 'col-span-3' :
-                   section.gridSize.cols === 4 ? 'col-span-4' : 'col-span-5';
-    
-    const rowSpan = section.gridSize.rows === 1 ? 'row-span-1' :
-                   section.gridSize.rows === 2 ? 'row-span-2' : 'row-span-3';
-    
-    return `${colSpan} ${rowSpan}`;
   };
 
   return (
-    <div className="min-h-screen bg-background p-4 md:p-8">
-      <div className="max-w-7xl mx-auto">
-        <header className="mb-8 text-center">
-          <h1 className="text-4xl md:text-6xl font-bold bg-gradient-primary bg-clip-text text-transparent mb-4">
-            Dotcoon
-          </h1>
-          <p className="text-xl md:text-2xl text-muted-foreground mb-2">
-            aka Nightstation
-          </p>
-          <p className="text-sm md:text-base text-muted-foreground">
-            Interactive Store Layout - {isMobile ? 'Mobile' : 'Desktop'} View
-          </p>
-        </header>
+    <div className="min-h-screen bg-background p-4 flex flex-col">
+      <header className="text-center mb-6">
+        <h1 className="text-3xl md:text-4xl font-bold bg-gradient-primary bg-clip-text text-transparent mb-2">
+          Dotcoon Store Map
+        </h1>
+        <p className="text-lg text-secondary font-medium mb-1">
+          aka Nightstation
+        </p>
+        <p className="text-sm text-muted-foreground">
+          Interactive Grid Layout • Click sections to explore inventory
+        </p>
+      </header>
 
-        <div 
-          className={`grid gap-4 md:gap-6 auto-rows-fr min-h-[600px] md:min-h-[800px] ${getGridClasses()}`}
-        >
-          {sections.map((section) => (
-            <StoreSection
-              key={section.id}
-              section={section}
-              onClick={() => handleSectionClick(section.id)}
-              className={getSectionClasses(section)}
-            />
-          ))}
+      <div className="flex-1 flex items-center justify-center">
+        <div className="w-full max-w-6xl">
+          <StoreGrid
+            cells={gridCells}
+            gridSize={gridSize}
+            selectedCell={selectedCell}
+            onCellClick={handleCellClick}
+          />
         </div>
-
-        <footer className="mt-12 text-center text-muted-foreground">
-          <p className="text-sm">
-            Store layout adapts to your screen size • Click sections to explore inventory
-          </p>
-        </footer>
       </div>
+
+      <footer className="text-center text-xs text-muted-foreground mt-4">
+        Grid: {gridSize.cols}×{gridSize.rows} • Responsive Store Layout
+      </footer>
     </div>
   );
 }
