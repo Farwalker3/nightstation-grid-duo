@@ -5,7 +5,7 @@ import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  base: process.env.NODE_ENV === 'production' ? '/nightstation-grid-duo/' : '/',
+  base: mode === 'production' ? '/nightstation-grid-duo/' : '/',
   server: {
     host: "::",
     port: 8080,
