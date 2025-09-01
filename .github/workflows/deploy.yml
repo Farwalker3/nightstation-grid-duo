@@ -38,6 +38,12 @@ jobs:
         env:
           NODE_ENV: production
         
+      - name: List dist contents
+        run: ls -R ./dist
+
+      - name: Show index.html content
+        run: cat ./dist/index.html
+        
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
