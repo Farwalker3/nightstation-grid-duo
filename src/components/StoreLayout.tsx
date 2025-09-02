@@ -101,7 +101,7 @@ export function StoreLayout() {
         // Kitchen area (top-right, adaptive)
         const kitchenStart = gridSize.cols - Math.floor(gridSize.cols * 0.2);
         const kitchenHeight = Math.floor(gridSize.rows * 0.25);
-        else if (x >= kitchenStart && x <= gridSize.cols - 2 && y >= 1 && y <= kitchenHeight) {
+        if (x >= kitchenStart && x <= gridSize.cols - 2 && y >= 1 && y <= kitchenHeight) {
           cell = {
             ...cell,
             type: 'kitchen',
@@ -112,7 +112,7 @@ export function StoreLayout() {
         // Lounge area (bottom-left, adaptive)
         const loungeWidth = Math.floor(gridSize.cols * 0.2);
         const loungeStart = gridSize.rows - Math.floor(gridSize.rows * 0.3);
-        else if (x >= 1 && x <= loungeWidth && y >= loungeStart && y <= gridSize.rows - 2) {
+        if (x >= 1 && x <= loungeWidth && y >= loungeStart && y <= gridSize.rows - 2) {
           cell = {
             ...cell,
             type: 'lounge',
@@ -121,7 +121,7 @@ export function StoreLayout() {
         }
         
         // Future sections (adaptive positioning)
-        else if (
+        if (
           (x >= Math.floor(gridSize.cols * 0.4) && x <= Math.floor(gridSize.cols * 0.6) && y >= 2 && y <= Math.floor(gridSize.rows * 0.4)) ||
           (x >= Math.floor(gridSize.cols * 0.7) && x <= Math.floor(gridSize.cols * 0.85) && y >= Math.floor(gridSize.rows * 0.5) && y <= Math.floor(gridSize.rows * 0.7)) ||
           (x >= Math.floor(gridSize.cols * 0.3) && x <= Math.floor(gridSize.cols * 0.5) && y >= gridSize.rows - 3 && y <= gridSize.rows - 2)
@@ -134,7 +134,7 @@ export function StoreLayout() {
         }
         
         // Walkways (creating paths through the store)
-        else if (
+        if (
           (x === 0 || x === gridSize.cols - 1 || y === 0 || y === gridSize.rows - 1) || // perimeter
           (x === Math.floor(gridSize.cols * 0.35) && y >= 1 && y <= gridSize.rows - 2) || // vertical walkway
           (y === Math.floor(gridSize.rows * 0.5) && x >= 1 && x <= gridSize.cols - 2) // horizontal walkway
