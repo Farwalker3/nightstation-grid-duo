@@ -13,6 +13,7 @@ interface GridCell {
     price: string;
     link: string;
     stock: 'available' | 'low' | 'out';
+    story?: string;
   }>;
 }
 
@@ -67,32 +68,44 @@ export function StoreLayout() {
             name: 'Teenage Engineering Field System™',
             products: [
               {
+                id: 'computer-2',
+                name: 'Computer-2',
+                price: '$0',
+                link: 'https://teenage.engineering/store/computer-2',
+                stock: 'out',
+                story: `In the neon-soaked dimension of Grid-90, where data streams flow like aurora through fiber-optic forests, there lived a young dreamer named Zara. She spent her nights in abandoned server farms, the hum of cooling fans her lullaby, crafting beats on makeshift terminals.\n\nOne evening, while exploring the ruins of the old Corporate Towers, she discovered something extraordinary—a translucent case glowing with soft internal light. Inside, circuits danced like constellations, and when she touched it, the Computer-2 whispered stories of rebellion through its mini-ITX heart.\n\n"I am not just a machine," it hummed in frequencies only dreamers could hear. "I am possibility. I am the quiet revolution in your backpack, the studio in your tent, the future you carry to mountain peaks and midnight coding sessions."\n\nZara smiled, understanding. In this world where mega-corporations tried to control creativity, the Computer-2 was different. Small enough to hide, powerful enough to dream, transparent enough to trust. It didn't demand a desk or a corner office—it wanted to travel, to create, to be part of adventures.\n\nTogether, they would build something beautiful. Not in boardrooms or glass towers, but around campfires and in cozy corners, where the best ideas are born from quiet moments and wild imagination.\n\nThe Computer-2 wasn't just hardware. It was hope, crystallized in plastic and silicon, waiting for the next dreamer to pick it up and change the world, one gentle keystroke at a time.`
+              },
+              {
                 id: 'field-desk',
                 name: 'Field Desk',
                 price: '$1,200',
                 link: 'https://teenage.engineering/products/field-system',
-                stock: 'available'
+                stock: 'available',
+                story: `In the quiet hours before dawn, when the world holds its breath, Maya sets up her Field Desk by the lake. The aluminum surface catches the first light, transforming into a portal between dreams and reality.\n\nThis isn't just furniture—it's a launching pad for ideas that refuse to wait for office hours. Every cable groove tells a story of late-night sessions, every adjustment speaks of finding the perfect angle for creativity to flow.\n\nThe desk remembers every beat, every melody, every moment of pure inspiration that happened upon its surface.`
               },
               {
                 id: 'field-case',
                 name: 'Field Case',
                 price: '$400',
                 link: 'https://teenage.engineering/products/field-system',
-                stock: 'low'
+                stock: 'low',
+                story: `Alex carries the Field Case like a treasure chest of possibilities. Inside, dreams are organized with surgical precision—each cable, each device, each tool waiting for its moment to shine.\n\nOn trains, in forests, on rooftops overlooking sleeping cities, the case opens to reveal not just equipment, but a complete creative universe. Compact, protected, always ready for the next adventure.\n\nIt's the difference between having ideas and being able to act on them, anywhere, anytime.`
               },
               {
                 id: 'op-1-field',
                 name: 'OP-1 Field',
                 price: '$2,300',
                 link: 'https://teenage.engineering/products/field-system',
-                stock: 'available'
+                stock: 'available',
+                story: `In the dimension where music grows on trees and melodies flow like rivers, the OP-1 Field is both compass and map. Its screen glows with the warmth of possibility, each key a stepping stone across the creative void.\n\nLuna discovered hers in a thrift shop that existed only on Tuesdays, run by an old woman who claimed to trade in dreams. "This one's special," she whispered, "it remembers every song that was never finished and helps you complete them."\n\nNow Luna travels the world, the OP-1 Field her constant companion, turning waiting rooms into recording studios and park benches into concert halls. The music it makes doesn't just fill the air—it fills the spaces between heartbeats, the pauses between thoughts, the quiet moments where magic lives.`
               },
               {
                 id: 'tx-6',
                 name: 'TX-6',
                 price: '$1,200',
                 link: 'https://teenage.engineering/products/field-system',
-                stock: 'available'
+                stock: 'available',
+                story: `The TX-6 sits quietly in River's backpack, patient as a cat, powerful as a storm. In coffee shops and on mountain trails, it transforms the ordinary into the extraordinary, mixing reality with dreams until you can't tell where one ends and the other begins.\n\nSix channels of pure possibility, each one a doorway to somewhere new. River learned that the best mixes happen not in studios, but in the spaces between—on night buses, in 24-hour diners, wherever inspiration strikes and refuses to wait for permission.`
               }
             ]
           };
@@ -171,7 +184,7 @@ export function StoreLayout() {
           aka Nightstation
         </p>
         <p className="text-xs text-muted-foreground hidden sm:block">
-          Interactive Grid Layout • Click sections to explore inventory
+          Interactive Grid Layout • Click sections to explore inventory & stories
         </p>
       </header>
 
@@ -189,7 +202,7 @@ export function StoreLayout() {
 
       {/* Compact Footer */}
       <footer className="text-center text-xs text-muted-foreground py-1 px-4 flex-shrink-0 hidden md:block">
-        Grid: {gridSize.cols}×{gridSize.rows} • Responsive Store Layout
+        Grid: {gridSize.cols}×{gridSize.rows} • Responsive Store Layout • Stories from Grid-90
       </footer>
     </div>
   );
