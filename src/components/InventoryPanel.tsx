@@ -1,7 +1,8 @@
+import { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { X, ExternalLink, ShoppingCart, Package, Coffee, Sofa, Plus } from 'lucide-react';
+import { X, ExternalLink, ShoppingCart, Package, Coffee, Sofa, Plus, BookOpen, Sparkles } from 'lucide-react';
 
 interface GridCellData {
   id: string;
@@ -15,6 +16,7 @@ interface GridCellData {
     price: string;
     link: string;
     stock: 'available' | 'low' | 'out';
+    story?: string;
   }>;
 }
 
@@ -24,6 +26,8 @@ interface InventoryPanelProps {
 }
 
 export function InventoryPanel({ cell, onClose }: InventoryPanelProps) {
+  const [selectedStory, setSelectedStory] = useState<string | null>(null);
+
   const getSectionIcon = () => {
     switch (cell.type) {
       case 'teenage-engineering':
@@ -68,10 +72,76 @@ export function InventoryPanel({ cell, onClose }: InventoryPanelProps) {
     window.open(link, '_blank', 'noopener,noreferrer');
   };
 
+  const formatStory = (story: string) => {
+    return story.split('\n\n').map((paragraph, index) => (
+      <p key={index} className="mb-4 last:mb-0 leading-relaxed">
+        {paragraph}
+      </p>
+    ));
+  };
+
+  if (selectedStory) {
+    const product = cell.products?.find(p => p.story === selectedStory);
+    return (
+      <div className="fixed inset-0 bg-background/90 backdrop-blur-md flex items-center justify-center p-4 z-50 animate-fade-in">
+        <Card className="w-full max-w-2xl max-h-[80vh] bg-gradient-to-br from-card via-card to-card/80 border-primary/20 shadow-2xl animate-scale-in overflow-hidden">
+          <div className="p-6 overflow-y-auto max-h-full">
+            {/* Story Header */}
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center space-x-3">
+                <div className="p-3 rounded-xl bg-gradient-primary/10 border border-primary/20">
+                  <Sparkles className="w-6 h-6 text-primary" />
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold bg-gradient-primary bg-clip-text text-transparent">
+                    {product?.name} • Grid-90 Tales
+                  </h3>
+                  <p className="text-sm text-muted-foreground">
+                    A story from the alternate dimension
+                  </p>
+                </div>
+              </div>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setSelectedStory(null)}
+                className="h-8 w-8 p-0 hover:bg-primary/10"
+              >
+                <X className="w-4 h-4" />
+              </Button>
+            </div>
+
+            {/* Story Content */}
+            <div className="prose prose-invert max-w-none">
+              <div className="text-foreground/90 text-base leading-7 space-y-4">
+                {formatStory(selectedStory)}
+              </div>
+            </div>
+
+            {/* Story Footer */}
+            <div className="mt-8 pt-6 border-t border-border/30 flex items-center justify-between">
+              <div className="flex items-center space-x-2 text-xs text-muted-foreground">
+                <Sparkles className="w-3 h-3" />
+                <span>From the archives of Grid-90</span>
+              </div>
+              <Button
+                size="sm"
+                onClick={() => setSelectedStory(null)}
+                className="bg-gradient-primary hover:opacity-80"
+              >
+                Back to Inventory
+              </Button>
+            </div>
+          </div>
+        </Card>
+      </div>
+    );
+  }
+
   return (
     <div className="fixed inset-0 bg-background/80 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-fade-in">
-      <Card className="w-full max-w-md bg-card border-border shadow-product animate-scale-in">
-        <div className="p-6">
+      <Card className="w-full max-w-md bg-card border-border shadow-product animate-scale-in max-h-[80vh] overflow-hidden">
+        <div className="p-6 overflow-y-auto">
           {/* Header */}
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center space-x-3">
@@ -117,7 +187,7 @@ export function InventoryPanel({ cell, onClose }: InventoryPanelProps) {
                       {getStockBadge(product.stock)}
                     </div>
                     
-                    <div className="flex items-center justify-between">
+                    <div className="flex items-center justify-between mb-2">
                       <span className="text-lg font-bold text-primary">
                         {product.price}
                       </span>
@@ -125,7 +195,7 @@ export function InventoryPanel({ cell, onClose }: InventoryPanelProps) {
                       <div className="flex space-x-2">
                         <Button
                           size="sm"
-                          variant="product"
+                          variant="outline"
                           onClick={() => handleProductClick(product.link)}
                           disabled={product.stock === 'out'}
                           className="text-xs"
@@ -143,6 +213,20 @@ export function InventoryPanel({ cell, onClose }: InventoryPanelProps) {
                         </Button>
                       </div>
                     </div>
+
+                    {/* Story Button */}
+                    {product.story && (
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        onClick={() => setSelectedStory(product.story!)}
+                        className="w-full mt-2 text-xs bg-gradient-primary/10 hover:bg-gradient-primary/20 border border-primary/20"
+                      >
+                        <BookOpen className="w-3 h-3 mr-2" />
+                        <Sparkles className="w-3 h-3 mr-1" />
+                        Read the Grid-90 Tale
+                      </Button>
+                    )}
                   </div>
                 ))}
               </div>
@@ -161,7 +245,7 @@ export function InventoryPanel({ cell, onClose }: InventoryPanelProps) {
           {/* Footer */}
           <div className="mt-6 pt-4 border-t border-border">
             <p className="text-xs text-muted-foreground text-center">
-              Click outside to close • Visit Teenage Engineering for more products
+              Click outside to close • Stories from the dimension of Grid-90
             </p>
           </div>
         </div>
