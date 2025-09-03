@@ -24,27 +24,18 @@ export function StoreLayout() {
   useEffect(() => {
     const updateGrid = () => {
       const width = window.innerWidth;
-      const height = window.innerHeight;
       
-      // Optimized grid sizing for better screen utilization
+      // Conservative grid sizing that ensures proper fit
       if (width < 640) {
-        // Mobile: smaller, more square grid
-        setGridSize({ cols: 12, rows: 8 });
+        setGridSize({ cols: 10, rows: 6 });
       } else if (width < 768) {
-        // Small tablet: balanced grid
-        setGridSize({ cols: 14, rows: 9 });
+        setGridSize({ cols: 12, rows: 7 });
       } else if (width < 1024) {
-        // Tablet: wider grid
-        setGridSize({ cols: 16, rows: 9 });
+        setGridSize({ cols: 14, rows: 8 });
       } else if (width < 1280) {
-        // Laptop: optimal ratio
-        setGridSize({ cols: 18, rows: 10 });
-      } else if (width < 1536) {
-        // Desktop: wide grid
-        setGridSize({ cols: 20, rows: 11 });
+        setGridSize({ cols: 16, rows: 9 });
       } else {
-        // Large desktop: maximum grid
-        setGridSize({ cols: 22, rows: 12 });
+        setGridSize({ cols: 18, rows: 10 });
       }
     };
 
@@ -67,7 +58,7 @@ export function StoreLayout() {
         };
 
         // Teenage Engineering section (top-left, adaptive size)
-        const teWidth = Math.floor(gridSize.cols * 0.22);
+        const teWidth = Math.floor(gridSize.cols * 0.25);
         const teHeight = Math.floor(gridSize.rows * 0.35);
         if (x >= 1 && x <= teWidth && y >= 1 && y <= teHeight) {
           cell = {
@@ -120,7 +111,7 @@ export function StoreLayout() {
         }
         
         // Kitchen area (top-right, adaptive)
-        const kitchenStart = gridSize.cols - Math.floor(gridSize.cols * 0.18);
+        const kitchenStart = gridSize.cols - Math.floor(gridSize.cols * 0.2);
         const kitchenHeight = Math.floor(gridSize.rows * 0.3);
         if (x >= kitchenStart && x <= gridSize.cols - 2 && y >= 1 && y <= kitchenHeight) {
           cell = {
@@ -131,7 +122,7 @@ export function StoreLayout() {
         }
         
         // Lounge area (bottom-left, adaptive)
-        const loungeWidth = Math.floor(gridSize.cols * 0.18);
+        const loungeWidth = Math.floor(gridSize.cols * 0.2);
         const loungeStart = gridSize.rows - Math.floor(gridSize.rows * 0.35);
         if (x >= 1 && x <= loungeWidth && y >= loungeStart && y <= gridSize.rows - 2) {
           cell = {
@@ -143,8 +134,8 @@ export function StoreLayout() {
         
         // Future sections (adaptive positioning)
         if (
-          (x >= Math.floor(gridSize.cols * 0.35) && x <= Math.floor(gridSize.cols * 0.55) && y >= 2 && y <= Math.floor(gridSize.rows * 0.4)) ||
-          (x >= Math.floor(gridSize.cols * 0.65) && x <= Math.floor(gridSize.cols * 0.8) && y >= Math.floor(gridSize.rows * 0.5) && y <= Math.floor(gridSize.rows * 0.7)) ||
+          (x >= Math.floor(gridSize.cols * 0.4) && x <= Math.floor(gridSize.cols * 0.6) && y >= 2 && y <= Math.floor(gridSize.rows * 0.4)) ||
+          (x >= Math.floor(gridSize.cols * 0.7) && x <= Math.floor(gridSize.cols * 0.85) && y >= Math.floor(gridSize.rows * 0.5) && y <= Math.floor(gridSize.rows * 0.7)) ||
           (x >= Math.floor(gridSize.cols * 0.3) && x <= Math.floor(gridSize.cols * 0.5) && y >= gridSize.rows - 3 && y <= gridSize.rows - 2)
         ) {
           cell = {
@@ -157,8 +148,8 @@ export function StoreLayout() {
         // Walkways (creating paths through the store)
         if (
           (x === 0 || x === gridSize.cols - 1 || y === 0 || y === gridSize.rows - 1) || // perimeter
-          (x === Math.floor(gridSize.cols * 0.3) && y >= 1 && y <= gridSize.rows - 2) || // vertical walkway
-          (y === Math.floor(gridSize.rows * 0.45) && x >= 1 && x <= gridSize.cols - 2) // horizontal walkway
+          (x === Math.floor(gridSize.cols * 0.35) && y >= 1 && y <= gridSize.rows - 2) || // vertical walkway
+          (y === Math.floor(gridSize.rows * 0.5) && x >= 1 && x <= gridSize.cols - 2) // horizontal walkway
         ) {
           cell = {
             ...cell,
@@ -183,22 +174,22 @@ export function StoreLayout() {
 
   return (
     <div className="h-screen w-screen bg-background flex flex-col overflow-hidden">
-      {/* Minimal Header */}
-      <header className="text-center py-1 md:py-2 px-2 md:px-4 flex-shrink-0">
-        <h1 className="text-lg md:text-xl lg:text-2xl xl:text-3xl font-bold bg-gradient-primary bg-clip-text text-transparent">
+      {/* Compact Header */}
+      <header className="text-center py-2 px-4 flex-shrink-0">
+        <h1 className="text-xl md:text-2xl lg:text-3xl font-bold bg-gradient-primary bg-clip-text text-transparent">
           Nightstation
         </h1>
-        <p className="text-xs md:text-sm text-secondary font-medium">
+        <p className="text-sm md:text-base text-secondary font-medium">
           Grid-90 Store Map
         </p>
-        <p className="text-xs text-muted-foreground hidden lg:block">
+        <p className="text-xs text-muted-foreground hidden sm:block">
           Interactive Layout • Click sections for stories & inventory
         </p>
       </header>
 
-      {/* Main Grid Container - Maximum space utilization */}
-      <div className="flex-1 flex items-center justify-center p-1 md:p-2 min-h-0">
-        <div className="w-full h-full">
+      {/* Main Grid Container - Conservative spacing */}
+      <div className="flex-1 flex items-center justify-center p-4 min-h-0">
+        <div className="w-full h-full max-w-6xl">
           <StoreGrid
             cells={gridCells}
             gridSize={gridSize}
@@ -208,8 +199,8 @@ export function StoreLayout() {
         </div>
       </div>
 
-      {/* Minimal Footer */}
-      <footer className="text-center text-xs text-muted-foreground py-1 px-2 flex-shrink-0 hidden xl:block">
+      {/* Compact Footer */}
+      <footer className="text-center text-xs text-muted-foreground py-1 px-4 flex-shrink-0 hidden md:block">
         Grid: {gridSize.cols}×{gridSize.rows} • Stories from Grid-90
       </footer>
     </div>
