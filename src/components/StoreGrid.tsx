@@ -30,16 +30,17 @@ export function StoreGrid({ cells, gridSize, selectedCell, onCellClick }: StoreG
 
   return (
     <div className="h-full w-full flex flex-col">
-      {/* Main Grid - Optimized to fill more screen space */}
-      <div className="flex-1 flex items-center justify-center p-1 md:p-2">
+      {/* Main Grid - Conservative sizing that fits properly */}
+      <div className="flex-1 flex items-center justify-center">
         <div 
-          className="grid gap-0.5 md:gap-1 bg-store-section/20 p-1 md:p-3 rounded-lg md:rounded-xl border border-border/30 shadow-store w-full h-full"
+          className="grid gap-0.5 md:gap-1 bg-store-section/20 p-2 md:p-4 rounded-xl border border-border/30 shadow-store"
           style={{
             gridTemplateColumns: `repeat(${gridSize.cols}, 1fr)`,
             gridTemplateRows: `repeat(${gridSize.rows}, 1fr)`,
-            maxHeight: '85vh',
-            maxWidth: '95vw',
-            aspectRatio: `${gridSize.cols} / ${gridSize.rows}`
+            aspectRatio: `${gridSize.cols} / ${gridSize.rows}`,
+            width: '100%',
+            maxWidth: '100%',
+            height: 'auto'
           }}
         >
           {cells.map((cell) => (
@@ -56,28 +57,28 @@ export function StoreGrid({ cells, gridSize, selectedCell, onCellClick }: StoreG
         </div>
       </div>
 
-      {/* Compact Legend - Minimal space usage */}
-      <div className="flex-shrink-0 mt-1 md:mt-2">
-        <div className="flex flex-wrap gap-1 md:gap-2 justify-center text-xs px-2">
+      {/* Compact Legend */}
+      <div className="flex-shrink-0 mt-2">
+        <div className="flex flex-wrap gap-2 md:gap-3 justify-center text-xs">
           <div className="flex items-center space-x-1">
             <div className="w-2 h-2 md:w-3 md:h-3 bg-gradient-primary rounded-sm" />
-            <span className="text-muted-foreground text-xs">TE</span>
+            <span className="text-muted-foreground">Teenage Eng.</span>
           </div>
           <div className="flex items-center space-x-1">
             <div className="w-2 h-2 md:w-3 md:h-3 bg-gradient-secondary rounded-sm" />
-            <span className="text-muted-foreground text-xs">Kitchen</span>
+            <span className="text-muted-foreground">Kitchen</span>
           </div>
           <div className="flex items-center space-x-1">
             <div className="w-2 h-2 md:w-3 md:h-3 bg-accent rounded-sm" />
-            <span className="text-muted-foreground text-xs">Lounge</span>
+            <span className="text-muted-foreground">Lounge</span>
           </div>
           <div className="flex items-center space-x-1">
             <div className="w-2 h-2 md:w-3 md:h-3 bg-muted rounded-sm" />
-            <span className="text-muted-foreground text-xs">Future</span>
+            <span className="text-muted-foreground">Future</span>
           </div>
           <div className="flex items-center space-x-1 hidden sm:flex">
             <div className="w-2 h-2 md:w-3 md:h-3 bg-border rounded-sm" />
-            <span className="text-muted-foreground text-xs">Path</span>
+            <span className="text-muted-foreground">Walkway</span>
           </div>
         </div>
       </div>
