@@ -177,13 +177,13 @@ export function StoreLayout() {
       {/* Compact Header */}
       <header className="text-center py-2 px-4 flex-shrink-0">
         <h1 className="text-xl md:text-2xl lg:text-3xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-          Nightstation
+          Dotcoon Store Map
         </h1>
         <p className="text-sm md:text-base text-secondary font-medium">
-          Grid-90 Store Map
+          aka Nightstation
         </p>
         <p className="text-xs text-muted-foreground hidden sm:block">
-          Interactive Layout • Click sections for stories & inventory
+          Interactive Grid Layout • Click sections to explore inventory & stories
         </p>
       </header>
 
@@ -201,7 +201,7 @@ export function StoreLayout() {
 
       {/* Compact Footer */}
       <footer className="text-center text-xs text-muted-foreground py-1 px-4 flex-shrink-0 hidden md:block">
-        Grid: {gridSize.cols}×{gridSize.rows} • Stories from Grid-90
+        Grid: {gridSize.cols}×{gridSize.rows} • Responsive Store Layout • Stories from Grid-90
       </footer>
     </div>
   );
